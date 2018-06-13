@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+using System.IO;
+using capstone_dealership.Models;
+using Newtonsoft.Json.Linq;
 
 namespace capstone_dealership.Controllers
 {
@@ -13,6 +17,137 @@ namespace capstone_dealership.Controllers
             ViewBag.Title = "Home Page";
 
             return View();
+        }
+
+        public ActionResult Search()
+        {
+            ViewBag.Title = "Search Page";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetCarsbyID(int? id)
+        {
+            //makes a call to the API to get a list of cars
+            HttpWebRequest WR = WebRequest.CreateHttp($"http://localhost:55458/api/car?id={id}");
+            WR.UserAgent = ".NET Framework Test Client";
+
+            //instantiating the HTTP web response
+            HttpWebResponse Response;
+
+            Response = (HttpWebResponse)WR.GetResponse();
+
+            // if the response's HTTP status code is NOT ok, then return this error page
+
+
+            //reads response
+            StreamReader reader = new StreamReader(Response.GetResponseStream());
+            string carsData = reader.ReadToEnd();
+            Car c = new Car(); ;
+            //parsing car list, print Car ID to a viewbag.
+            if ( id != null )
+            {
+                try
+                {
+                    JObject JsonData = JObject.Parse(carsData);
+                    c.ID = int.Parse((string)JsonData["ID"]);
+                    c.Make = (string)JsonData["Make"];
+                    c.Model = (string)JsonData["Model"];
+                    c.Year = int.Parse((string)JsonData["Year"]);
+                    c.Color = (string)JsonData["Color"];
+                }
+                catch
+                {
+                    Exception e;
+                }
+
+            }
+
+            return Json(c);
+        }
+
+        [HttpPost]
+        public ActionResult GetCarsByColor(string color)
+        {
+            //makes a call to the API to get a list of cars
+            HttpWebRequest WR = WebRequest.CreateHttp($"http://localhost:55458/api/color?color={color}");
+            WR.UserAgent = ".NET Framework Test Client";
+
+            //instantiating the HTTP web response
+            HttpWebResponse Response;
+
+            Response = (HttpWebResponse)WR.GetResponse();
+
+            // if the response's HTTP status code is NOT ok, then return this error page
+
+
+            //reads response
+            StreamReader reader = new StreamReader(Response.GetResponseStream());
+            string carsData = reader.ReadToEnd();
+            List <Car> cars = new List<Car>();
+            Car c = new Car();
+            //parsing car list, print Car ID to a viewbag.
+            if (color != null)
+            {
+                //the jarray that will contain search results when color is searched
+                JArray JsonData = JArray.Parse(carsData);
+
+                for (int i = 0; i < JsonData.Count; i++)
+                {
+                    c.ID = int.Parse((string)JsonData[i]["ID"]);
+                    c.Make = (string)JsonData[i]["Make"];
+                    c.Model = (string)JsonData[i]["Model"];
+                    c.Year = int.Parse((string)JsonData[i]["Year"]);
+                    c.Color = (string)JsonData[i]["Color"];
+                    cars.Add(new Car() { ID = c.ID, Make = c.Make, Model = c.Model, Year = c.Year, Color = c.Color });
+                }
+
+
+            }
+
+            return Json(cars);
+        }
+        [HttpPost]
+        public ActionResult GetCarsByMake(string make)
+        {
+            //makes a call to the API to get a list of cars
+            HttpWebRequest WR = WebRequest.CreateHttp($"http://localhost:55458/api/make?make={make}");
+            WR.UserAgent = ".NET Framework Test Client";
+
+            //instantiating the HTTP web response
+            HttpWebResponse Response;
+
+            Response = (HttpWebResponse)WR.GetResponse();
+
+            // if the response's HTTP status code is NOT ok, then return this error page
+
+
+            //reads response
+            StreamReader reader = new StreamReader(Response.GetResponseStream());
+            string carsData = reader.ReadToEnd();
+            List<Car> cars = new List<Car>();
+            Car c = new Car();
+            //parsing car list, print Car ID to a viewbag.
+            if (make != null)
+            {
+                //the jarray that will contain search results when color is searched
+                JArray JsonData = JArray.Parse(carsData);
+
+                for (int i = 0; i < JsonData.Count; i++)
+                {
+                    c.ID = int.Parse((string)JsonData[i]["ID"]);
+                    c.Make = (string)JsonData[i]["Make"];
+                    c.Model = (string)JsonData[i]["Model"];
+                    c.Year = int.Parse((string)JsonData[i]["Year"]);
+                    c.Color = (string)JsonData[i]["Color"];
+                    cars.Add(new Car() { ID = c.ID, Make = c.Make, Model = c.Model, Year = c.Year, Color = c.Color });
+                }
+
+
+            }
+
+            return Json(cars);
         }
     }
 }

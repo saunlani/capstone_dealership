@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+
+Car ID:
+<input type="number" id="id" class="form-control"
+       oninput="search()" />
+Car Color:
+<input type="text" id="color" class="form-control"
+       oninput="search2()" />
+Car Make:
+<input type="text" id="make" class="form-control"
+       oninput="search3()" />
+
+
+<table class="table table-striped" id="cars"></table>
+
+<script type="text/javascript"
+        src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script>
+
+    function search() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetCarsByID',
+                // url: '/api/Car',
+                data: '{id: "' + document.getElementById("id").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>ID</th>"
+                            + "<th>Make</th>"
+                            + "<th>Model</th>"
+                            + "<th>Year</th>"
+                            + "<th>Color</th></tr>";
+                        var Car = response;
+                        if (response != null) {
+                            var tr = "<tr><td>" + Car.ID + "</td>"
+                                + "<td>" + Car.Make + "</td>"
+                                + "<td>" + Car.Model + "</td>"
+                                + "<td>" + Car.Year + "</td>"
+                                + "<td>" + Car.Color + "</td>"
+                                + "</tr>";
+                        }
+                        else { }
+                        tableHTML += tr;
+                        //alert(response);
+                        /*for (var i = 0; i < response.length; i++) {
+                            var Car = response[i];
+                            var tr = "<tr><td>" + Car.ID + "</td>"
+                                + "<td>" + Car.Make + "</td>"
+                                + "<td>" + Car.Model  + "</td>"
+                                + "<td>" + Car.Year  + "</td>"
+                                + "<td>" + Car.Color + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                        }*/
+                        document.getElementById("cars")
+                            .innerHTML = tableHTML;
+                    },
+                failure: function (response) {
+                    document.write(response.responseText);
+                },
+                error: function (response) {
+                    document.write(response.responseText);
+                }
+            }
+        );
+    }
+
+    function search2() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetCarsByColor',
+                data: '{color: "' + document.getElementById("color").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>ID</th>"
+                            + "<th>Make</th>"
+                            + "<th>Model</th>"
+                            + "<th>Yearr</th>"
+                            + "<th>Color</th></tr>";
+                        for (var i = 0; i < response.length; i++) {
+                            var Car = response[i];
+                            var tr = "<tr><td>" + Car.ID + "</td>"
+                                + "<td>" + Car.Make + "</td>"
+                                + "<td>" + Car.Model + "</td>"
+                                + "<td>" + Car.Year + "</td>"
+                                + "<td>" + Car.Color + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                        }
+                        document.getElementById("cars")
+                            .innerHTML = tableHTML;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+    }
+    function search3() {
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Home/GetCarsByMake',
+                data: '{make: "' + document.getElementById("make").value
+                    + '"}',
+                contentType: 'application/json; charset-utf-8',
+                dataType: 'json',
+                success:
+                    function (response) {
+                        var tableHTML = "<tr><th>ID</th>"
+                            + "<th>Make</th>"
+                            + "<th>Model</th>"
+                            + "<th>Yearr</th>"
+                            + "<th>Color</th></tr>";
+                        for (var i = 0; i < response.length; i++) {
+                            var Car = response[i];
+                            var tr = "<tr><td>" + Car.ID + "</td>"
+                                + "<td>" + Car.Make + "</td>"
+                                + "<td>" + Car.Model + "</td>"
+                                + "<td>" + Car.Year + "</td>"
+                                + "<td>" + Car.Color + "</td>"
+                                + "</tr>";
+                            tableHTML += tr;
+                        }
+                        document.getElementById("cars")
+                            .innerHTML = tableHTML;
+                    },
+                failure: function (response) {
+                    alert("Failure" + response.responseText);
+                },
+                error: function (response) {
+                    alert("Error" + response.responseText);
+                }
+            }
+
+        );
+    }
+</script>
