@@ -19,5 +19,6 @@ namespace capstone_dealership.Models
         public string Model { get; set; }
         public Nullable<int> Year { get; set; }
         public string Color { get; set; }
+        public string Image { get; set; }
     }
 }

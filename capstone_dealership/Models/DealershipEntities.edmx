@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DealershipModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DealershipModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cars">
           <Key>
             <PropertyRef Name="ID" />
@@ -14,12 +14,12 @@
           <Property Name="Model" Type="nvarchar" MaxLength="50" />
           <Property Name="Year" Type="int" />
           <Property Name="Color" Type="nvarchar" MaxLength="50" />
+          <Property Name="Image" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="DealershipModelStoreContainer">
           <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DealershipModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -32,6 +32,7 @@
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Year" Type="Int32" />
           <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="DealershipEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Cars" EntityType="Self.Car" />
@@ -45,6 +46,7 @@
           <EntitySetMapping Name="Cars">
             <EntityTypeMapping TypeName="DealershipModel.Car">
               <MappingFragment StoreEntitySet="Cars">
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Make" ColumnName="Make" />
                 <ScalarProperty Name="Model" ColumnName="Model" />

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'c:\users\shaunalan\source\repos\capstone_dealership\capstone_dealership\Models\DealershipEntities.edmx'. 
+﻿// T4 code generation is enabled for model '\\vmware-host\Shared Folders\Projects\capstone_dealership\capstone_dealership\Models\DealershipEntities.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

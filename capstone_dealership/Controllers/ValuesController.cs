@@ -36,34 +36,37 @@ namespace capstone_dealership.Controllers
         public void Delete(int id)
         {
         }
-        [HttpGet]
-        [Route("{api}/Cars")]
-        public List<Car> Car()
-        {
-            DealershipEntities db = new DealershipEntities();
-            List<Car> Cars = db.Cars.ToList();
-            return Cars;
-        }
 
         [HttpGet]
         [Route("{api}/Car")]
-        public Car Car(int? id)
+        public List<Car> Car(int? id)
         {
-
             DealershipEntities db = new DealershipEntities();
-            List<Car> Cars = db.Cars.ToList();
-            Car Result = null;
+
+            List<Car> CarIDList = new List<Car>();
             try
             {
-                Result = (from m in db.Cars
-                          where m.ID == id
-                          select m).Single();
+                List<Car> Cars = db.Cars.ToList();
+                CarIDList = (from p in db.Cars
+                             where p.ID == id
+                             select p).ToList();
             }
             catch
             {
                 Exception e;
             }
-            return Result;
+
+            return CarIDList;
+        }
+
+        [HttpGet]
+        [Route("{api}/CarsCount")]
+        public int CarsCount()
+        {
+            DealershipEntities db = new DealershipEntities();
+            List<Car> Cars = db.Cars.ToList();
+            int carcount = Cars.Count();
+            return carcount;
         }
 
         [HttpGet]
@@ -84,9 +87,33 @@ namespace capstone_dealership.Controllers
             DealershipEntities db = new DealershipEntities();
             List<Car> Cars = db.Cars.ToList();
             List<Car> CarMakeList = (from p in db.Cars
-                                       where p.Make.Contains(make)
-                                       select p).ToList();
+                                     where p.Make.Contains(make)
+                                     select p).ToList();
             return CarMakeList;
+        }
+
+        [HttpGet]
+        [Route("{api}/Model")]
+        public List<Car> Model(string model)
+        {
+            DealershipEntities db = new DealershipEntities();
+            List<Car> Cars = db.Cars.ToList();
+            List<Car> CarModelList = (from p in db.Cars
+                                      where p.Make.Contains(model)
+                                      select p).ToList();
+            return CarModelList;
+        }
+
+        [HttpGet]
+        [Route("{api}/Year")]
+        public List<Car> Year(int? year)
+        {
+            DealershipEntities db = new DealershipEntities();
+            List<Car> Cars = db.Cars.ToList();
+            List<Car> CarYearList = (from p in db.Cars
+                                     where p.Year == year
+                                     select p).ToList();
+            return CarYearList;
         }
     }
 }
